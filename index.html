@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,85 +15,90 @@
             align-items: center;
             height: 100vh;
         }
+
         .calculator {
-            background-color: #fff;
+            width: 300px;
+            border: 2px solid #ccc;
             border-radius: 10px;
             padding: 20px;
+            background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .calculator input[type="text"] {
-            width: 100%;
-            padding: 10px;
+
+        #display {
+            width: calc(100% - 10px);
             margin-bottom: 10px;
+            padding: 10px;
+            font-size: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 18px;
         }
-        .calculator input[type="button"] {
-            width: 48%;
-            padding: 10px;
-            margin: 5px 1%;
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 18px;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
             cursor: pointer;
         }
-        .calculator input[type="button"]:hover {
-            background-color: #f0f0f0;
-        }
-        .calculator .row:after {
-            content: "";
-            display: table;
-            clear: both;
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="calculator">
         <input type="text" id="display" readonly>
-        <div class="row">
-            <input type="button" value="1" onclick="addToDisplay('1')">
-            <input type="button" value="2" onclick="addToDisplay('2')">
-            <input type="button" value="3" onclick="addToDisplay('3')">
-            <input type="button" value="+" onclick="addToDisplay('+')">
-        </div>
-        <div class="row">
-            <input type="button" value="4" onclick="addToDisplay('4')">
-            <input type="button" value="5" onclick="addToDisplay('5')">
-            <input type="button" value="6" onclick="addToDisplay('6')">
-            <input type="button" value="-" onclick="addToDisplay('-')">
-        </div>
-        <div class="row">
-            <input type="button" value="7" onclick="addToDisplay('7')">
-            <input type="button" value="8" onclick="addToDisplay('8')">
-            <input type="button" value="9" onclick="addToDisplay('9')">
-            <input type="button" value="*" onclick="addToDisplay('*')">
-        </div>
-        <div class="row">
-            <input type="button" value="0" onclick="addToDisplay('0')">
-            <input type="button" value="." onclick="addToDisplay('.')">
-            <input type="button" value="=" onclick="calculate()">
-            <input type="button" value="/" onclick="addToDisplay('/')">
-        </div>
-        <div class="row">
-            <input type="button" value="C" onclick="clearDisplay()">
+        <div class="buttons">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>+</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>-</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>*</button>
+            <button>0</button>
+            <button>.</button>
+            <button>C</button>
+            <button>/</button>
+            <button>=</button>
         </div>
     </div>
-
     <script>
-        function addToDisplay(value) {
-            document.getElementById('display').value += value;
-        }
-        function clearDisplay() {
-            document.getElementById('display').value = '';
-        }
-        function calculate() {
-            try {
-                document.getElementById('display').value = eval(document.getElementById('display').value);
-            } catch(err) {
-                document.getElementById('display').value = 'Error';
-            }
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const display = document.getElementById('display');
+            const buttons = document.querySelectorAll('.buttons button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    if (this.innerText === 'C') {
+                        display.value = '';
+                    } else if (this.innerText === '=') {
+                        try {
+                            display.value = eval(display.value);
+                        } catch (e) {
+                            display.value = 'Error';
+                        }
+                    } else {
+                        display.value += this.innerText;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
